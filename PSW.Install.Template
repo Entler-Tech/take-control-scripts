@@ -1,0 +1,28 @@
+Install WindowsUpdate Module
+if (-Not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
+Write-Host "Install WindowsUpdate Module"
+#Install-Module PSWindowsUpdate -Confirm:$false -Force
+Copy-Item "$PSScriptRoot\PSWindowsUpdate" -Destination "$env:ProgramFiles\WindowsPowerShell\Modules" -Recurse -Force
+}
+Import-Module PSWindowsUpdate
+# Check is busy
+while ((Get-WUInstallerStatus).IsBusy) {
+Write-Host "Windows Update installer is busy, wait..."
+Start-Sleep -s 10
+}
+Try {
+Add-WUServiceManager -ServiceID "7971f918-a847-4430-9279-4a52d1efe18d" -Confirm:$False
+} Catch {
+Throw "Unable to add the Microsoft Update service ID"
+}
+Get-WindowsUpdate -MicrosoftUpdate -UpdateType Software -Install -AcceptAll -IgnoreReboot | Select Title, KB, Result | Format-Table
+$needReboot = (Get-WURebootStatus -Silent).RebootRequired
+# Specify return code
+if ($needReboot)
+{
+Write-Host "Windows Update indicated that a reboot is needed."
+}
+else
+{
+Write-Host "Windows Update indicated that no reboot is required."
+}
