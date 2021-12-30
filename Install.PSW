@@ -1,1 +1,1 @@
-Install-Module -Name PSWindowsUpdate -Force
+Install-Module -Name PSWindowsUpdate -Force -Force
