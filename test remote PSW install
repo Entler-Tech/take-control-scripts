@@ -1,0 +1,9 @@
+
+
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force 
+
+Set-PSRepository -Name "psgallery" -InstallationPolicy Trusted 
+
+Install-Module -Name PSWindowsUpdate -RequiredVersion 2.1.0.1
+
+Import-Module PSWindowsUpdat
