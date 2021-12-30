@@ -1,4 +1,4 @@
-
+Set-ExecutionPolicy RemoteSigned -Scope LocalMachine -Force
 
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force 
 
